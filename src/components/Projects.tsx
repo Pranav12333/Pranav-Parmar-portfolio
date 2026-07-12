@@ -1,42 +1,80 @@
-// src/components/Projects.tsx
-const projects = [
-  {
-    title: "Portfolio Website",
-    description: "A modern portfolio built with React, Tailwind CSS, and Vite.",
-    tech: ["React", "TypeScript", "Tailwind CSS"],
-  },
-  {
-    title: "E-Commerce App",
-    description: "Angular + Node.js based fully-functional e-commerce platform with cart, auth, and admin dashboard.",
-    tech: ["Angular", "Node.js", "MongoDB"],
-  },
-  {
-    title: "Real-time Chat App",
-    description: "Built with Socket.IO for instant messaging and user presence updates.",
-    tech: ["React", "Socket.IO", "Express.js"],
-  },
-];
+import { FaFolderOpen, FaGithub } from "react-icons/fa";
+import { FiExternalLink } from "react-icons/fi";
+import { projects } from "../data/profile";
+import { SectionHeader } from "./About";
+import Reveal from "./effects/Reveal";
+import TiltCard from "./effects/TiltCard";
+import { StaggerGroup, StaggerItem } from "./effects/StaggerGroup";
 
 const Projects = () => {
   return (
-    <section id="projects" className="min-h-screen px-4 py-20 bg-gray-900 text-white">
-      <div className="max-w-6xl mx-auto">
-        <h2 className="text-4xl font-bold text-center text-purple-400 mb-12">Projects</h2>
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
-          {projects.map((project, index) => (
-            <div key={index} className="bg-gray-800 rounded-2xl p-6 hover:shadow-lg transition-all border border-white/10">
-              <h3 className="text-2xl font-semibold text-indigo-300">{project.title}</h3>
-              <p className="text-gray-400 my-3">{project.description}</p>
-              <div className="text-sm text-gray-500">
-                {project.tech.map((tech, i) => (
-                  <span key={i} className="inline-block bg-indigo-900/50 rounded-full px-3 py-1 mr-2 mb-2">
-                    {tech}
+    <section id="projects" className="px-4 py-24 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-6xl">
+        <Reveal>
+          <SectionHeader eyebrow="Things I've built" title="Featured Projects" center />
+        </Reveal>
+
+        <StaggerGroup className="mt-14 grid gap-6 [perspective:1200px] sm:grid-cols-2 lg:grid-cols-3">
+          {projects.map((project) => (
+            <StaggerItem key={project.title} className="h-full">
+              <TiltCard className="group card card-hover flex h-full flex-col p-6">
+                <div className="flex items-center justify-between">
+                  <span className="icon-tile h-12 w-12 text-xl">
+                    <FaFolderOpen />
                   </span>
-                ))}
-              </div>
-            </div>
+                  {project.highlight && (
+                    <span className="text-xs font-semibold text-indigo-500 dark:text-indigo-400">
+                      {project.highlight}
+                    </span>
+                  )}
+                </div>
+
+                <h3 className="mt-5 text-lg font-bold text-slate-900 transition-colors group-hover:text-blue-600 dark:text-white dark:group-hover:text-blue-400">
+                  {project.title}
+                </h3>
+
+                <p className="mt-3 flex-1 text-sm leading-relaxed text-slate-600 dark:text-slate-400">
+                  {project.description}
+                </p>
+
+                <div className="mt-5 flex flex-wrap gap-2">
+                  {project.tech.map((t) => (
+                    <span key={t} className="chip">
+                      {t}
+                    </span>
+                  ))}
+                </div>
+
+                {(project.liveUrl || project.repoUrl) && (
+                  <div className="mt-5 flex gap-3 border-t border-slate-200 pt-4 dark:border-slate-800">
+                    {project.liveUrl && (
+                      <a
+                        href={project.liveUrl}
+                        target="_blank"
+                        rel="noreferrer"
+                        data-cursor="hover"
+                        className="link-underline inline-flex items-center gap-1.5 text-sm font-medium text-blue-600 transition-all hover:gap-2.5 hover:text-blue-500 dark:text-blue-400"
+                      >
+                        <FiExternalLink /> Live Demo
+                      </a>
+                    )}
+                    {project.repoUrl && (
+                      <a
+                        href={project.repoUrl}
+                        target="_blank"
+                        rel="noreferrer"
+                        data-cursor="hover"
+                        className="link-underline inline-flex items-center gap-1.5 text-sm font-medium text-slate-500 transition-colors hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-100"
+                      >
+                        <FaGithub /> Code
+                      </a>
+                    )}
+                  </div>
+                )}
+              </TiltCard>
+            </StaggerItem>
           ))}
-        </div>
+        </StaggerGroup>
       </div>
     </section>
   );

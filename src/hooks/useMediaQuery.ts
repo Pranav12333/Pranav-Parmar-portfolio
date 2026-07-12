@@ -1,0 +1,25 @@
+import { useEffect, useState } from "react";
+
+/** Reactive `window.matchMedia` hook. */
+export function useMediaQuery(query: string): boolean {
+  const [matches, setMatches] = useState(() =>
+    typeof window !== "undefined" ? window.matchMedia(query).matches : false
+  );
+
+  useEffect(() => {
+    const mql = window.matchMedia(query);
+    const handler = () => setMatches(mql.matches);
+    handler();
+    mql.addEventListener("change", handler);
+    return () => mql.removeEventListener("change", handler);
+  }, [query]);
+
+  return matches;
+}
+
+export const usePrefersReducedMotion = () =>
+  useMediaQuery("(prefers-reduced-motion: reduce)");
+
+export const useIsDesktop = () => useMediaQuery("(min-width: 768px)");
+
+export const useHasFinePointer = () => useMediaQuery("(pointer: fine)");

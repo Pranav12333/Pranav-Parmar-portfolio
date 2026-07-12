@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://pranav12333.github.io/portfolio-react/sitemap.xml
