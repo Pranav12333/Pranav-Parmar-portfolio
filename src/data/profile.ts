@@ -10,7 +10,7 @@ export const profile = {
   location: "Ahmedabad, Gujarat, India",
   email: "parmarhn50@gmail.com",
   phone: "+91 98798 65602",
-  liveSite: "https://portfolio-react-ochre-iota.vercel.app/",
+  liveSite: "https://pranav12333.github.io/Pranav-Parmar-portfolio/",
   tagline:
     "I build scalable, real-time web apps and IoT-integrated systems — turning complex hardware, data, and design problems into clean, dependable software.",
   summary:

@@ -1,69 +1,35 @@
-# React + TypeScript + Vite
+# Pranav Parmar — Portfolio
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**Live site: [pranav12333.github.io/Pranav-Parmar-portfolio](https://pranav12333.github.io/Pranav-Parmar-portfolio/)**
 
-Currently, two official plugins are available:
+Personal portfolio of **Pranav Parmar**, a Full Stack Developer & Angular Specialist from Ahmedabad, India with 3+ years of experience building scalable, real-time web applications and IoT-integrated systems.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## About
 
-## Expanding the ESLint configuration
+- 🅰️ Angular (14/16) · TypeScript · RxJS specialist
+- 🟢 Node.js / Express REST APIs with WebSocket & MQTT
+- 📡 Real-time & IoT systems — camera/NVR ecosystems, access control, device communication
+- ⚡ API performance tuning at scale (400k+ records)
+- 👥 Mentors developers through structured Git/GitHub workflows
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Connect
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- 💼 [LinkedIn — Pranav Parmar](https://www.linkedin.com/in/pranav-parmar-webdeveloper/)
+- 🐙 [GitHub — @Pranav12333](https://github.com/Pranav12333)
+- ▶️ [YouTube](https://www.youtube.com/@pranav_parmar_123)
+- ✉️ [parmarhn50@gmail.com](mailto:parmarhn50@gmail.com)
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+## Tech stack (this site)
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+React 19 · TypeScript · Vite · Tailwind CSS · Framer Motion · Three.js (react-three-fiber) · Lenis smooth scroll
+
+## Run locally
+
+```bash
+npm install
+npm run dev      # start dev server
+npm run build    # production build (tsc + vite)
+npm run preview  # preview the production build
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+Deployed automatically to GitHub Pages via GitHub Actions on every push to `main`.

@@ -33,7 +33,7 @@ const About = () => {
                 <div className="absolute -inset-3 rounded-3xl brand-gradient opacity-20 blur-xl transition-opacity duration-500 group-hover:opacity-45" />
                 <img
                   src={profile_img}
-                  alt={profile.name}
+                  alt={`${profile.name} — ${profile.title} & ${profile.specialty} based in ${profile.location}`}
                   loading="lazy"
                   decoding="async"
                   className="relative aspect-square w-full rounded-3xl border border-slate-200 object-cover shadow-xl transition-all duration-500 group-hover:border-blue-400/50 group-hover:shadow-2xl group-hover:shadow-blue-500/20 dark:border-slate-800"
@@ -43,9 +43,9 @@ const About = () => {
 
             <Reveal delay={0.1}>
               <div className="card p-5">
-                <h4 className="mb-3 text-sm font-semibold text-slate-900 dark:text-white">
+                <h3 className="mb-3 text-sm font-semibold text-slate-900 dark:text-white">
                   Languages
-                </h4>
+                </h3>
                 <StaggerGroup className="flex flex-wrap gap-2">
                   {languages.map((lang) => (
                     <StaggerItem key={lang}>

@@ -43,6 +43,11 @@ const Home = () => {
           >
             <span className="text-slate-900 dark:text-white">Hi, I'm </span>
             <span className="brand-text-animated">{profile.name}</span>
+            {/* Screen-reader/crawler text: the role rotates via JS below, so
+                keep the primary keywords statically inside the h1 */}
+            <span className="sr-only">
+              {" "}— {profile.title} & {profile.specialty} in {profile.location}
+            </span>
           </motion.h1>
 
           <motion.div

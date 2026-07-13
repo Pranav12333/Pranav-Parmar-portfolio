@@ -44,8 +44,11 @@ const Footer = () => {
         </div>
 
         <p className="text-sm text-slate-500 dark:text-slate-500">
-          © {new Date().getFullYear()} {profile.fullName}. Built with React,
-          TypeScript, Three.js & Tailwind.
+          © {new Date().getFullYear()} {profile.fullName} — {profile.title} ·{" "}
+          {profile.location}
+        </p>
+        <p className="-mt-4 text-xs text-slate-400 dark:text-slate-600">
+          Built with React, TypeScript, Three.js & Tailwind.
         </p>
 
         <button
