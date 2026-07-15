@@ -17,6 +17,7 @@ const Projects = () => {
         <StaggerGroup className="mt-14 grid gap-6 [perspective:1200px] sm:grid-cols-2 lg:grid-cols-3">
           {projects.map((project) => (
             <StaggerItem key={project.title} className="h-full">
+              <article className="h-full">
               <TiltCard className="group card card-hover flex h-full flex-col p-6">
                 <div className="flex items-center justify-between">
                   <span className="icon-tile h-12 w-12 text-xl">
@@ -72,6 +73,7 @@ const Projects = () => {
                   </div>
                 )}
               </TiltCard>
+              </article>
             </StaggerItem>
           ))}
         </StaggerGroup>

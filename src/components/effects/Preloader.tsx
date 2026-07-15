@@ -150,14 +150,17 @@ const Preloader = () => {
               Welcome to the world of
             </motion.p>
 
-            <motion.h1
+            {/* Not an h1: the real page H1 lives in the Home hero. This is a
+                transient splash overlay, so the name here stays a styled
+                paragraph to keep the page to a single H1 for SEO/a11y. */}
+            <motion.p
               initial={{ opacity: 0, y: 26, scale: 0.96 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               transition={{ delay: 0.5, duration: 0.7, ease: EASE }}
-              className="mt-3 text-4xl font-extrabold brand-text-animated sm:text-6xl"
+              className="mt-3 text-4xl font-extrabold tracking-tight brand-text-animated sm:text-6xl"
             >
               {profile.name}
-            </motion.h1>
+            </motion.p>
 
             {/* Swapping "where X meets Y" line */}
             <motion.div

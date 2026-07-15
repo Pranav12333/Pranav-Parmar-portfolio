@@ -39,7 +39,7 @@ const Experience = () => {
                   <FaBriefcase size={13} />
                 </span>
 
-                <div className="card card-hover p-6">
+                <article className="card card-hover p-6">
                   <div className="flex flex-wrap items-start justify-between gap-2">
                     <div>
                       <h3 className="text-lg font-bold text-slate-900 transition-colors duration-300 group-hover:text-blue-600 dark:text-white dark:group-hover:text-blue-400">
@@ -76,7 +76,7 @@ const Experience = () => {
                       </li>
                     ))}
                   </ul>
-                </div>
+                </article>
               </Reveal>
             ))}
           </div>

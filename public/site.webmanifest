@@ -1,0 +1,24 @@
+{
+  "name": "Pranav Parmar | Full Stack Developer | Angular Developer | Portfolio",
+  "short_name": "Pranav Parmar",
+  "description": "Full Stack Developer and Angular Developer with 3+ Years Experience building scalable web apps with Angular, React, Next.js, Node.js, Express.js and MongoDB.",
+  "start_url": ".",
+  "scope": ".",
+  "display": "standalone",
+  "background_color": "#020617",
+  "theme_color": "#020617",
+  "icons": [
+    {
+      "src": "favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "og-image.png",
+      "sizes": "500x500",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}

@@ -26,13 +26,14 @@ const Navbar = () => {
   };
 
   return (
-    <nav
+    <header
       className={`fixed top-0 z-50 w-full transition-all duration-300 ${
         scrolled
           ? "bg-slate-50/80 dark:bg-slate-950/80 backdrop-blur-md border-b border-slate-200/70 dark:border-slate-800/70 shadow-sm"
           : "bg-transparent"
       }`}
     >
+      <nav>
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         <button
           onClick={scrollToTop}
@@ -102,7 +103,8 @@ const Navbar = () => {
           </ul>
         </div>
       )}
-    </nav>
+      </nav>
+    </header>
   );
 };
 

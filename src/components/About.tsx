@@ -7,11 +7,11 @@ import TiltCard from "./effects/TiltCard";
 import { StaggerGroup, StaggerItem } from "./effects/StaggerGroup";
 
 const highlights = [
-  "3+ years building real-time, IoT-integrated web apps",
-  "Angular (14/16) • TypeScript • RxJS specialist",
-  "Node.js / Express REST APIs with WebSocket & MQTT",
-  "Optimized APIs handling 400k+ records",
-  "Leads & mentors developers via structured Git workflows",
+  "3+ years building scalable, real-time & IoT web apps",
+  "Frontend: Angular, React, Next.js, TypeScript & RxJS",
+  "Backend: Node.js, Express.js & MongoDB (MEAN stack)",
+  "Real-time device comms over WebSocket & MQTT",
+  "Optimized APIs for 400k+ records; mentors dev teams",
 ];
 
 const About = () => {
