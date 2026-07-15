@@ -152,7 +152,7 @@ export const experience: Experience[] = [
     ],
   },
   {
-    company: "Cybercom Creation",
+    company: "Cybercom Creationnnnnnnnnnnn",
     role: "PHP Developer Intern",
     period: "Mar 2023 – May 2023",
     location: "Ahmedabad, Gujarat",
