@@ -12,7 +12,7 @@ export const profile = {
   phone: "+91 98798 65602",
   liveSite: "https://pranav12333.github.io/Pranav-Parmar-portfolio/",
   tagline:
-    "I eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee, real-time web apps and IoT-integrated systems with Angular, React, Next.js, and the MEAN stack — turning complex hardware, data, and design problems into clean, dependable software.",
+    "I build scalable, real-time web apps and IoT-integrated systems with Angular, React, Next.js, and the MEAN stack — turning complex hardware, data, and design problems into clean, dependable software.",
   summary:
     "Pranav Parmar is a Full Stack Developer and Angular Developer with 3+ years of experience building scalable, real-time web applications and IoT-integrated systems. He brings deep expertise in Angular (14/16), React, Next.js, TypeScript, JavaScript, and RxJS on the frontend, backed by hands-on Node.js and Express.js REST APIs with MongoDB — the full MEAN stack — plus real-time device communication over WebSocket & MQTT. Pranav enjoys debugging tough production issues, applying system-design fundamentals, and mentoring developers through structured Git/GitHub workflows.",
   socials: {
@@ -152,7 +152,7 @@ export const experience: Experience[] = [
     ],
   },
   {
-    company: "Cybercom Creationnnnnnnnnnnn",
+    company: "Cybercom Creation",
     role: "PHP Developer Intern",
     period: "Mar 2023 – May 2023",
     location: "Ahmedabad, Gujarat",
