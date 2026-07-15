@@ -19,6 +19,8 @@ export const profile = {
     github: "https://github.com/Pranav12333",
     linkedin: "https://www.linkedin.com/in/pranav-parmar-webdeveloper/",
     youtube: "https://www.youtube.com/@pranav_parmar_123",
+    instagram: "https://www.instagram.com/pranav_parmar.12333?igsh=bXB3MWRjcmdoZmgx&utm_source=qr",
+    stackoverflow: "https://stackoverflow.com/users/32940722/pranav-parmar",
     email: "mailto:parmarhn50@gmail.com",
   },
 };

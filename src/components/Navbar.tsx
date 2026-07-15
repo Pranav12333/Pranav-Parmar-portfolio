@@ -35,20 +35,28 @@ const Navbar = () => {
     >
       <nav>
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-        <button
-          onClick={scrollToTop}
+        <a
+          href="#home"
+          onClick={(e) => {
+            e.preventDefault();
+            scrollToTop();
+          }}
           data-cursor="hover"
           className="text-xl font-extrabold brand-text transition-transform duration-300 hover:scale-105"
         >
           Pranav<span className="text-slate-800 dark:text-white">.</span>
-        </button>
+        </a>
 
         {/* Desktop nav */}
         <ul className="hidden items-center gap-7 md:flex">
           {navLinks.map((item) => (
             <li key={item.to}>
-              <button
-                onClick={() => go(item.to)}
+              <a
+                href={`#${item.to}`}
+                onClick={(e) => {
+                  e.preventDefault();
+                  go(item.to);
+                }}
                 data-cursor="hover"
                 className={`relative text-sm font-medium transition-colors after:absolute after:-bottom-1.5 after:left-0 after:h-0.5 after:rounded-full after:bg-blue-500 after:transition-all after:duration-300 ${
                   active === item.to
@@ -57,7 +65,7 @@ const Navbar = () => {
                 }`}
               >
                 {item.label}
-              </button>
+              </a>
             </li>
           ))}
         </ul>
@@ -88,8 +96,12 @@ const Navbar = () => {
           <ul className="flex flex-col gap-1">
             {navLinks.map((item) => (
               <li key={item.to}>
-                <button
-                  onClick={() => go(item.to)}
+                <a
+                  href={`#${item.to}`}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    go(item.to);
+                  }}
                   className={`block w-full rounded-lg px-3 py-2.5 text-left text-base font-medium transition-colors ${
                     active === item.to
                       ? "bg-blue-500/10 text-blue-600 dark:text-blue-400"
@@ -97,7 +109,7 @@ const Navbar = () => {
                   }`}
                 >
                   {item.label}
-                </button>
+                </a>
               </li>
             ))}
           </ul>

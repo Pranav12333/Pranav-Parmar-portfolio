@@ -1,7 +1,7 @@
 import { useState } from "react";
 import type { ChangeEvent, FormEvent, ReactNode } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { FaGithub, FaLinkedin, FaYoutube, FaEnvelope } from "react-icons/fa";
+import { FaGithub, FaLinkedin, FaYoutube, FaEnvelope, FaInstagram, FaStackOverflow } from "react-icons/fa";
 import { FiMail, FiPhone, FiMapPin, FiSend, FiCheckCircle, FiAlertCircle } from "react-icons/fi";
 import { profile } from "../data/profile";
 import { SectionHeader } from "./About";
@@ -130,7 +130,7 @@ const Contact = () => {
               <p className="mb-3 text-sm font-semibold text-slate-900 dark:text-white">
                 Find me online
               </p>
-              <div className="flex gap-3">
+              <div className="flex flex-wrap gap-3">
                 <Social href={profile.socials.github} label="GitHub">
                   <FaGithub />
                 </Social>
@@ -139,6 +139,12 @@ const Contact = () => {
                 </Social>
                 <Social href={profile.socials.youtube} label="YouTube">
                   <FaYoutube />
+                </Social>
+                <Social href={profile.socials.instagram} label="Instagram">
+                  <FaInstagram />
+                </Social>
+                <Social href={profile.socials.stackoverflow} label="Stack Overflow">
+                  <FaStackOverflow />
                 </Social>
                 <Social href={profile.socials.email} label="Email" external={false}>
                   <FaEnvelope />

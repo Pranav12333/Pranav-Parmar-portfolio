@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import { motion } from "framer-motion";
-import { FaGithub, FaLinkedin, FaEnvelope, FaYoutube } from "react-icons/fa";
+import { FaGithub, FaLinkedin, FaEnvelope, FaYoutube, FaInstagram, FaStackOverflow } from "react-icons/fa";
 import { FiArrowRight, FiMapPin } from "react-icons/fi";
 import { profile, stats, roles } from "../data/profile";
 import { useGreeting } from "../hooks/useGreeting";
@@ -78,30 +78,38 @@ const Home = () => {
             className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row"
           >
             <Magnetic>
-              <button
-                onClick={() => scrollToSection("projects")}
+              <a
+                href="#projects"
+                onClick={(e) => {
+                  e.preventDefault();
+                  scrollToSection("projects");
+                }}
                 data-cursor="hover"
                 className="group btn-sheen inline-flex items-center justify-center gap-2 rounded-full brand-gradient px-7 py-3 text-sm font-semibold text-white shadow-lg shadow-blue-500/25 transition-all hover:scale-[1.04] hover:shadow-xl hover:shadow-blue-500/40 active:scale-95 sm:text-base"
               >
                 View My Work
                 <FiArrowRight className="transition-transform group-hover:translate-x-1" />
-              </button>
+              </a>
             </Magnetic>
             <Magnetic>
-              <button
-                onClick={() => scrollToSection("contact")}
+              <a
+                href="#contact"
+                onClick={(e) => {
+                  e.preventDefault();
+                  scrollToSection("contact");
+                }}
                 data-cursor="hover"
                 className="inline-flex items-center justify-center gap-2 rounded-full border border-blue-500/50 bg-white/50 px-7 py-3 text-sm font-semibold text-blue-600 backdrop-blur-sm transition-all hover:scale-[1.04] hover:border-blue-500 hover:bg-blue-500/10 hover:shadow-lg hover:shadow-blue-500/20 active:scale-95 sm:text-base dark:bg-slate-900/40 dark:text-blue-400"
               >
                 Get in Touch
-              </button>
+              </a>
             </Magnetic>
           </motion.div>
 
           {/* Socials */}
           <motion.div
             variants={staggerItem}
-            className="mt-8 flex items-center justify-center gap-3"
+            className="mt-8 flex flex-wrap items-center justify-center gap-3"
           >
             <SocialIcon href={profile.socials.github} label="GitHub">
               <FaGithub />
@@ -111,6 +119,12 @@ const Home = () => {
             </SocialIcon>
             <SocialIcon href={profile.socials.youtube} label="YouTube">
               <FaYoutube />
+            </SocialIcon>
+            <SocialIcon href={profile.socials.instagram} label="Instagram">
+              <FaInstagram />
+            </SocialIcon>
+            <SocialIcon href={profile.socials.stackoverflow} label="Stack Overflow">
+              <FaStackOverflow />
             </SocialIcon>
             <SocialIcon href={profile.socials.email} label="Email" external={false}>
               <FaEnvelope />

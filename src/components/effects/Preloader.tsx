@@ -85,6 +85,7 @@ const Preloader = () => {
       {active && !done && (
         <motion.div
           data-intro
+          aria-hidden="true"
           className="fixed inset-0 z-[100]"
           style={{ perspective: "1400px" }}
           // No-op exit that outlives the doors so the overlay stays mounted

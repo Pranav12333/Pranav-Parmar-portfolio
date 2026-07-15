@@ -126,11 +126,14 @@ const SnowField = ({ color }: { color: string }) => {
     };
   }, []);
 
+  const elapsed = useRef(0);
+
   useFrame((state, delta) => {
     const m = ref.current;
     if (!m) return;
     const d = Math.min(delta, 0.05); // clamp after tab refocus
-    const t = state.clock.elapsedTime;
+    elapsed.current += d;
+    const t = elapsed.current;
 
     // Cursor ray → the cursor's world position at any depth, so the gathering
     // lines up with the on-screen pointer for near and far hexes alike.
