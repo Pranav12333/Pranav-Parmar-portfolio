@@ -1,6 +1,6 @@
 import { FaGraduationCap } from "react-icons/fa";
 import { FiCheckCircle } from "react-icons/fi";
-import profile_img from "../assets/profile.jpg";
+import profile_img from "../assets/profile.webp";
 import { profile, education, languages } from "../data/profile";
 import Reveal from "./effects/Reveal";
 import TiltCard from "./effects/TiltCard";
@@ -18,11 +18,12 @@ const About = () => {
   return (
     <section
       id="about"
+      aria-labelledby="about-heading"
       className="relative px-4 py-24 sm:px-6 lg:px-8"
     >
       <div className="mx-auto max-w-6xl">
         <Reveal>
-          <SectionHeader eyebrow="Get to know me" title="About Me" />
+          <SectionHeader eyebrow="Get to know me" title="About Me" id="about-heading" />
         </Reveal>
 
         <div className="mt-14 grid items-start gap-12 lg:grid-cols-[0.9fr_1.1fr]">
@@ -34,6 +35,8 @@ const About = () => {
                 <img
                   src={profile_img}
                   alt={`${profile.name} — ${profile.title} & ${profile.specialty} based in ${profile.location}`}
+                  width={500}
+                  height={500}
                   loading="lazy"
                   decoding="async"
                   className="relative aspect-square w-full rounded-3xl border border-slate-200 object-cover shadow-xl transition-all duration-500 group-hover:border-blue-400/50 group-hover:shadow-2xl group-hover:shadow-blue-500/20 dark:border-slate-800"
@@ -121,16 +124,18 @@ export const SectionHeader = ({
   eyebrow,
   title,
   center = false,
+  id,
 }: {
   eyebrow: string;
   title: string;
   center?: boolean;
+  id?: string;
 }) => (
   <div className={center ? "text-center" : ""}>
     <p className="text-sm font-semibold uppercase tracking-widest brand-text">
       {eyebrow}
     </p>
-    <h2 className="section-title mt-2">{title}</h2>
+    <h2 id={id} className="section-title mt-2">{title}</h2>
     <div
       className={`mt-4 h-1 w-16 rounded-full brand-gradient ${
         center ? "mx-auto" : ""

@@ -33,7 +33,7 @@ const Navbar = () => {
           : "bg-transparent"
       }`}
     >
-      <nav>
+      <nav aria-label="Primary">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         <a
           href="#home"
@@ -57,6 +57,7 @@ const Navbar = () => {
                   e.preventDefault();
                   go(item.to);
                 }}
+                aria-current={active === item.to ? "true" : undefined}
                 data-cursor="hover"
                 className={`relative text-sm font-medium transition-colors after:absolute after:-bottom-1.5 after:left-0 after:h-0.5 after:rounded-full after:bg-blue-500 after:transition-all after:duration-300 ${
                   active === item.to
@@ -83,6 +84,8 @@ const Navbar = () => {
           <button
             onClick={() => setOpen((v) => !v)}
             aria-label="Toggle menu"
+            aria-expanded={open}
+            aria-controls="mobile-menu"
             className="grid h-10 w-10 place-items-center rounded-full border border-slate-200 bg-white/70 text-slate-700 md:hidden dark:border-slate-800 dark:bg-slate-900/70 dark:text-slate-200"
           >
             {open ? <FiX size={20} /> : <FiMenu size={20} />}
@@ -92,7 +95,7 @@ const Navbar = () => {
 
       {/* Mobile menu */}
       {open && (
-        <div className="border-t border-slate-200 bg-slate-50/95 px-4 py-4 backdrop-blur md:hidden dark:border-slate-800 dark:bg-slate-950/95">
+        <div id="mobile-menu" className="border-t border-slate-200 bg-slate-50/95 px-4 py-4 backdrop-blur md:hidden dark:border-slate-800 dark:bg-slate-950/95">
           <ul className="flex flex-col gap-1">
             {navLinks.map((item) => (
               <li key={item.to}>
@@ -102,6 +105,7 @@ const Navbar = () => {
                     e.preventDefault();
                     go(item.to);
                   }}
+                  aria-current={active === item.to ? "true" : undefined}
                   className={`block w-full rounded-lg px-3 py-2.5 text-left text-base font-medium transition-colors ${
                     active === item.to
                       ? "bg-blue-500/10 text-blue-600 dark:text-blue-400"

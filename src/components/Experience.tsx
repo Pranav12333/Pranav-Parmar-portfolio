@@ -1,6 +1,6 @@
 import { useRef } from "react";
 import { FaBriefcase } from "react-icons/fa";
-import { motion, useScroll, useSpring } from "framer-motion";
+import { m, useScroll, useSpring } from "framer-motion";
 import { experience } from "../data/profile";
 import { SectionHeader } from "./About";
 import Reveal from "./effects/Reveal";
@@ -14,16 +14,16 @@ const Experience = () => {
   const scaleY = useSpring(scrollYProgress, { stiffness: 80, damping: 20 });
 
   return (
-    <section id="experience" className="px-4 py-24 sm:px-6 lg:px-8">
+    <section id="experience" aria-labelledby="experience-heading" className="px-4 py-24 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-4xl">
         <Reveal>
-          <SectionHeader eyebrow="Where I've worked" title="Experience" center />
+          <SectionHeader eyebrow="Where I've worked" title="Experience" center id="experience-heading" />
         </Reveal>
 
         <div ref={timelineRef} className="relative mt-14">
           {/* Track + animated fill */}
           <div className="absolute bottom-2 left-4 top-2 w-px bg-slate-200 sm:left-5 dark:bg-slate-800" />
-          <motion.div
+          <m.div
             style={{ scaleY }}
             className="absolute bottom-2 left-4 top-2 w-px origin-top brand-gradient sm:left-5"
           />

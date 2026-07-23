@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { staggerContainer, staggerItem } from "../../lib/motion";
 
 type StaggerGroupProps = {
@@ -10,7 +10,7 @@ type StaggerGroupProps = {
 
 /** Parent container that cascades its <StaggerItem> children into view. */
 export const StaggerGroup = ({ children, className, stagger = 0.08 }: StaggerGroupProps) => (
-  <motion.div
+  <m.div
     className={className}
     variants={staggerContainer(stagger)}
     initial="hidden"
@@ -18,7 +18,7 @@ export const StaggerGroup = ({ children, className, stagger = 0.08 }: StaggerGro
     viewport={{ once: true, margin: "-80px" }}
   >
     {children}
-  </motion.div>
+  </m.div>
 );
 
 type StaggerItemProps = {
@@ -27,7 +27,7 @@ type StaggerItemProps = {
 };
 
 export const StaggerItem = ({ children, className }: StaggerItemProps) => (
-  <motion.div className={className} variants={staggerItem}>
+  <m.div className={className} variants={staggerItem}>
     {children}
-  </motion.div>
+  </m.div>
 );

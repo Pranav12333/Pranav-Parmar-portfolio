@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { motion, useMotionValue, useSpring } from "framer-motion";
+import { m, useMotionValue, useSpring } from "framer-motion";
 import { useHasFinePointer, usePrefersReducedMotion } from "../../hooks/useMediaQuery";
 
 /**
@@ -45,24 +45,26 @@ const Cursor = () => {
   return (
     <>
       {/* Big soft glow */}
-      <motion.div
+      <m.div
+        aria-hidden="true"
         style={{ x: glowX, y: glowY }}
         className="pointer-events-none fixed left-0 top-0 z-[65] hidden md:block"
       >
         <div className="h-64 w-64 -translate-x-1/2 -translate-y-1/2 rounded-full bg-blue-500/10 blur-3xl" />
-      </motion.div>
+      </m.div>
 
       {/* Trailing ring */}
-      <motion.div
+      <m.div
+        aria-hidden="true"
         style={{ x: ringX, y: ringY }}
         className="pointer-events-none fixed left-0 top-0 z-[70] hidden md:block"
       >
-        <motion.div
+        <m.div
           animate={{ scale: hovering ? 2.2 : 1, opacity: hovering ? 0.5 : 0.9 }}
           transition={{ type: "spring", stiffness: 300, damping: 20 }}
           className="h-7 w-7 -translate-x-1/2 -translate-y-1/2 rounded-full border border-blue-500/70"
         />
-      </motion.div>
+      </m.div>
     </>
   );
 };

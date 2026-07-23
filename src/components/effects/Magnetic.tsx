@@ -1,6 +1,6 @@
 import { useRef } from "react";
 import type { ReactNode, MouseEvent as ReactMouseEvent } from "react";
-import { motion, useMotionValue, useSpring } from "framer-motion";
+import { m, useMotionValue, useSpring } from "framer-motion";
 import { useHasFinePointer } from "../../hooks/useMediaQuery";
 
 type MagneticProps = {
@@ -36,7 +36,7 @@ const Magnetic = ({ children, className, strength = 0.35 }: MagneticProps) => {
   }
 
   return (
-    <motion.div
+    <m.div
       ref={ref}
       onMouseMove={handleMove}
       onMouseLeave={reset}
@@ -44,7 +44,7 @@ const Magnetic = ({ children, className, strength = 0.35 }: MagneticProps) => {
       className={className}
     >
       {children}
-    </motion.div>
+    </m.div>
   );
 };
 

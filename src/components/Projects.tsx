@@ -8,10 +8,10 @@ import { StaggerGroup, StaggerItem } from "./effects/StaggerGroup";
 
 const Projects = () => {
   return (
-    <section id="projects" className="px-4 py-24 sm:px-6 lg:px-8">
+    <section id="projects" aria-labelledby="projects-heading" className="px-4 py-24 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-6xl">
         <Reveal>
-          <SectionHeader eyebrow="Things I've built" title="Featured Projects" center />
+          <SectionHeader eyebrow="Things I've built" title="Featured Projects" center id="projects-heading" />
         </Reveal>
 
         <StaggerGroup className="mt-14 grid gap-6 [perspective:1200px] sm:grid-cols-2 lg:grid-cols-3">

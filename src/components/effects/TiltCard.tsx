@@ -1,6 +1,6 @@
 import { useRef } from "react";
 import type { ReactNode, MouseEvent as ReactMouseEvent } from "react";
-import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
+import { m, useMotionValue, useSpring, useTransform } from "framer-motion";
 import { useHasFinePointer } from "../../hooks/useMediaQuery";
 
 type TiltCardProps = {
@@ -46,7 +46,7 @@ const TiltCard = ({ children, className, max = 8 }: TiltCardProps) => {
   }
 
   return (
-    <motion.div
+    <m.div
       ref={ref}
       onMouseMove={handleMove}
       onMouseLeave={reset}
@@ -54,7 +54,7 @@ const TiltCard = ({ children, className, max = 8 }: TiltCardProps) => {
       className={className}
     >
       {children}
-    </motion.div>
+    </m.div>
   );
 };
 

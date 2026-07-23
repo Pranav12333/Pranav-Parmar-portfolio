@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { EASE } from "../../lib/motion";
 
 type Direction = "up" | "down" | "left" | "right" | "none";
@@ -36,7 +36,7 @@ const Reveal = ({
   distance = 28,
 }: RevealProps) => {
   return (
-    <motion.div
+    <m.div
       className={className}
       initial={{ opacity: 0, ...offset(direction, distance) }}
       whileInView={{ opacity: 1, x: 0, y: 0 }}
@@ -44,7 +44,7 @@ const Reveal = ({
       transition={{ duration: 0.65, delay, ease: EASE }}
     >
       {children}
-    </motion.div>
+    </m.div>
   );
 };
 

@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { FaGithub, FaLinkedin, FaEnvelope, FaYoutube, FaInstagram, FaStackOverflow } from "react-icons/fa";
 import { FiArrowRight, FiMapPin } from "react-icons/fi";
 import { profile, stats, roles } from "../data/profile";
@@ -16,18 +16,19 @@ const Home = () => {
   return (
     <section
       id="home"
+      aria-labelledby="home-heading"
       className="relative flex min-h-screen items-center justify-center overflow-hidden px-4 pb-24 pt-28 sm:px-6 lg:px-8"
     >
       {/* Soft glow behind the headline for depth + legibility over the snow */}
       <div className="pointer-events-none absolute left-1/2 top-1/2 -z-[1] h-[26rem] w-[26rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-blue-500/10 blur-3xl dark:bg-blue-500/10" />
 
       <div className="relative z-10 mx-auto w-full max-w-3xl text-center">
-        <motion.div
+        <m.div
           variants={staggerContainer(0.12)}
           initial="hidden"
           animate="show"
         >
-          <motion.div variants={staggerItem}>
+          <m.div variants={staggerItem}>
             <span className="inline-flex items-center gap-2 rounded-full border border-blue-500/30 bg-blue-500/10 px-4 py-1.5 text-sm font-medium text-blue-700 backdrop-blur-sm dark:text-blue-300">
               <span className="relative flex h-2 w-2">
                 <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-500 opacity-75" />
@@ -35,9 +36,10 @@ const Home = () => {
               </span>
               {greeting} · open to new opportunities
             </span>
-          </motion.div>
+          </m.div>
 
-          <motion.h1
+          <m.h1
+            id="home-heading"
             variants={staggerItem}
             className="mt-6 text-4xl font-extrabold leading-[1.08] sm:text-6xl lg:text-7xl"
           >
@@ -48,32 +50,32 @@ const Home = () => {
             <span className="sr-only">
               {" "}— {profile.title} & {profile.specialty} in {profile.location}
             </span>
-          </motion.h1>
+          </m.h1>
 
-          <motion.div
+          <m.div
             variants={staggerItem}
             className="mt-4 flex h-9 items-center justify-center gap-2 text-lg font-semibold text-slate-600 sm:text-2xl dark:text-slate-300"
           >
             <span className="font-mono text-blue-500">&lt;/&gt;</span>
             <RotatingText items={roles} />
-          </motion.div>
+          </m.div>
 
-          <motion.p
+          <m.p
             variants={staggerItem}
             className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-slate-600 sm:text-lg dark:text-slate-400"
           >
             {profile.tagline}
-          </motion.p>
+          </m.p>
 
-          <motion.div
+          <m.div
             variants={staggerItem}
             className="mt-5 flex items-center justify-center gap-2 text-sm text-slate-500 dark:text-slate-400"
           >
             <FiMapPin className="text-blue-500" /> {profile.location}
-          </motion.div>
+          </m.div>
 
           {/* CTAs */}
-          <motion.div
+          <m.div
             variants={staggerItem}
             className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row"
           >
@@ -104,10 +106,10 @@ const Home = () => {
                 Get in Touch
               </a>
             </Magnetic>
-          </motion.div>
+          </m.div>
 
           {/* Socials */}
-          <motion.div
+          <m.div
             variants={staggerItem}
             className="mt-8 flex flex-wrap items-center justify-center gap-3"
           >
@@ -129,8 +131,8 @@ const Home = () => {
             <SocialIcon href={profile.socials.email} label="Email" external={false}>
               <FaEnvelope />
             </SocialIcon>
-          </motion.div>
-        </motion.div>
+          </m.div>
+        </m.div>
 
         {/* Stats */}
         <div className="mt-14 grid grid-cols-2 gap-3 sm:grid-cols-4 sm:gap-6">

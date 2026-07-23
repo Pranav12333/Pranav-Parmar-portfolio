@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, m } from "framer-motion";
 import { usePrefersReducedMotion } from "../../hooks/useMediaQuery";
 
 type RotatingTextProps = {
@@ -24,7 +24,7 @@ const RotatingText = ({ items, interval = 2800, className }: RotatingTextProps) 
   return (
     <span className={`relative inline-flex overflow-hidden ${className ?? ""}`}>
       <AnimatePresence mode="wait">
-        <motion.span
+        <m.span
           key={items[index]}
           initial={{ y: 16, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
@@ -33,7 +33,7 @@ const RotatingText = ({ items, interval = 2800, className }: RotatingTextProps) 
           className="brand-text"
         >
           {items[index]}
-        </motion.span>
+        </m.span>
       </AnimatePresence>
     </span>
   );

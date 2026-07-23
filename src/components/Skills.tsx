@@ -7,7 +7,7 @@ import {
   FaTools,
   FaAngular,
 } from "react-icons/fa";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { skills, coreSkills } from "../data/profile";
 import { EASE } from "../lib/motion";
 import { SectionHeader } from "./About";
@@ -30,7 +30,7 @@ const SkillBar = ({ name, level }: { name: string; level: number }) => (
       <span className="font-semibold text-blue-600 dark:text-blue-400">{level}%</span>
     </div>
     <div className="h-2 overflow-hidden rounded-full bg-slate-200 dark:bg-slate-800">
-      <motion.div
+      <m.div
         className="relative h-full overflow-hidden rounded-full brand-gradient"
         initial={{ width: 0 }}
         whileInView={{ width: `${level}%` }}
@@ -38,17 +38,17 @@ const SkillBar = ({ name, level }: { name: string; level: number }) => (
         transition={{ duration: 1.1, ease: EASE }}
       >
         <span className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/40 to-transparent animate-shimmer" />
-      </motion.div>
+      </m.div>
     </div>
   </div>
 );
 
 const Skills = () => {
   return (
-    <section id="skills" className="px-4 py-24 sm:px-6 lg:px-8">
+    <section id="skills" aria-labelledby="skills-heading" className="px-4 py-24 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-6xl">
         <Reveal>
-          <SectionHeader eyebrow="What I work with" title="Skills & Tech" center />
+          <SectionHeader eyebrow="What I work with" title="Skills & Tech" center id="skills-heading" />
         </Reveal>
 
         {/* Core proficiency */}

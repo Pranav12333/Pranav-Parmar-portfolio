@@ -1,6 +1,6 @@
 import { useState } from "react";
 import type { ChangeEvent, FormEvent, ReactNode } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, m } from "framer-motion";
 import { FaGithub, FaLinkedin, FaYoutube, FaEnvelope, FaInstagram, FaStackOverflow } from "react-icons/fa";
 import { FiMail, FiPhone, FiMapPin, FiSend, FiCheckCircle, FiAlertCircle } from "react-icons/fi";
 import { profile } from "../data/profile";
@@ -97,10 +97,10 @@ const Contact = () => {
     "w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-800 placeholder:text-slate-400 transition focus-visible:border-blue-500/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/50 dark:border-slate-800 dark:bg-slate-950 dark:text-slate-100";
 
   return (
-    <section id="contact" className="px-4 py-24 sm:px-6 lg:px-8">
+    <section id="contact" aria-labelledby="contact-heading" className="px-4 py-24 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-6xl">
         <Reveal>
-          <SectionHeader eyebrow="Let's connect" title="Get in Touch" center />
+          <SectionHeader eyebrow="Let's connect" title="Get in Touch" center id="contact-heading" />
         </Reveal>
         <Reveal delay={0.05}>
           <p className="mx-auto mt-5 max-w-2xl text-center text-slate-600 dark:text-slate-400">
@@ -167,6 +167,7 @@ const Contact = () => {
                   id="name"
                   type="text"
                   name="name"
+                  autoComplete="name"
                   required
                   placeholder="Your name"
                   value={form.name}
@@ -182,6 +183,7 @@ const Contact = () => {
                   id="email"
                   type="email"
                   name="email"
+                  autoComplete="email"
                   required
                   placeholder="you@example.com"
                   value={form.email}
@@ -224,7 +226,7 @@ const Contact = () => {
 
               <AnimatePresence>
                 {status && (
-                  <motion.div
+                  <m.div
                     role="status"
                     aria-live="polite"
                     initial={{ opacity: 0, y: 8 }}
@@ -253,7 +255,7 @@ const Contact = () => {
                         <FiMail /> Send via my email app instead
                       </a>
                     )}
-                  </motion.div>
+                  </m.div>
                 )}
               </AnimatePresence>
             </form>

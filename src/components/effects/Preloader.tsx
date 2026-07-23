@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, m } from "framer-motion";
 import { profile } from "../../data/profile";
 import { EASE, EASE_INOUT } from "../../lib/motion";
 import { usePrefersReducedMotion } from "../../hooks/useMediaQuery";
@@ -83,7 +83,7 @@ const Preloader = () => {
   return (
     <AnimatePresence>
       {active && !done && (
-        <motion.div
+        <m.div
           data-intro
           aria-hidden="true"
           className="fixed inset-0 z-[100]"
@@ -93,20 +93,20 @@ const Preloader = () => {
           exit={{ opacity: 1, transition: { duration: 1.15 } }}
         >
           {/* Left door */}
-          <motion.div
+          <m.div
             className="absolute inset-y-0 left-0 w-1/2 border-r border-slate-200/60 bg-slate-50 shadow-2xl dark:border-slate-800/60 dark:bg-slate-950"
             style={{ transformOrigin: "left center", backfaceVisibility: "hidden" }}
             exit={{ rotateY: -102, transition: DOOR_EXIT }}
           />
           {/* Right door */}
-          <motion.div
+          <m.div
             className="absolute inset-y-0 right-0 w-1/2 bg-slate-50 shadow-2xl dark:bg-slate-950"
             style={{ transformOrigin: "right center", backfaceVisibility: "hidden" }}
             exit={{ rotateY: 102, transition: DOOR_EXIT }}
           />
 
           {/* Content — fades slightly ahead of the doors */}
-          <motion.div
+          <m.div
             className="absolute inset-0 flex flex-col items-center justify-center px-6 text-center"
             exit={{
               opacity: 0,
@@ -126,7 +126,7 @@ const Preloader = () => {
                     <stop offset="100%" stopColor="#2563eb" />
                   </linearGradient>
                 </defs>
-                <motion.circle
+                <m.circle
                   cx="56"
                   cy="56"
                   r="52"
@@ -142,36 +142,36 @@ const Preloader = () => {
               <span className="absolute text-2xl font-extrabold brand-text">PP</span>
             </div>
 
-            <motion.p
+            <m.p
               initial={{ opacity: 0, y: 18 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2, duration: 0.6, ease: EASE }}
               className="mt-8 text-xs font-semibold uppercase tracking-[0.35em] text-slate-500 sm:text-sm dark:text-slate-400"
             >
               Welcome to the world of
-            </motion.p>
+            </m.p>
 
             {/* Not an h1: the real page H1 lives in the Home hero. This is a
                 transient splash overlay, so the name here stays a styled
                 paragraph to keep the page to a single H1 for SEO/a11y. */}
-            <motion.p
+            <m.p
               initial={{ opacity: 0, y: 26, scale: 0.96 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               transition={{ delay: 0.5, duration: 0.7, ease: EASE }}
               className="mt-3 text-4xl font-extrabold tracking-tight brand-text-animated sm:text-6xl"
             >
               {profile.name}
-            </motion.p>
+            </m.p>
 
             {/* Swapping "where X meets Y" line */}
-            <motion.div
+            <m.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 1.1, duration: 0.5 }}
               className="relative mt-5 h-8 sm:h-9"
             >
               <AnimatePresence mode="wait">
-                <motion.p
+                <m.p
                   key={line}
                   initial={{ opacity: 0, y: 16 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -180,13 +180,13 @@ const Preloader = () => {
                   className="text-base font-medium text-slate-600 sm:text-xl dark:text-slate-300"
                 >
                   {LINES[line]}
-                </motion.p>
+                </m.p>
               </AnimatePresence>
-            </motion.div>
+            </m.div>
 
             {/* Intro timeline */}
             <div className="mt-9 h-[3px] w-56 overflow-hidden rounded-full bg-slate-200 dark:bg-slate-800">
-              <motion.div
+              <m.div
                 className="h-full brand-gradient"
                 initial={{ width: "0%" }}
                 animate={{ width: "100%" }}
@@ -194,16 +194,16 @@ const Preloader = () => {
               />
             </div>
 
-            <motion.p
+            <m.p
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 1.6, duration: 0.6 }}
               className="mt-4 text-xs text-slate-400 dark:text-slate-500"
             >
               Click anywhere or press any key to enter
-            </motion.p>
-          </motion.div>
-        </motion.div>
+            </m.p>
+          </m.div>
+        </m.div>
       )}
     </AnimatePresence>
   );
