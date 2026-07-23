@@ -32,7 +32,10 @@ type Hex = {
  * a smooth radial falloff — local density rises around the cursor and relaxes
  * back to plain snowfall when it leaves. Every click pops the hexes around it
  * with a radial burst; the first click also switches the cursor attraction off
- * for the rest of the session (a reload re-enables it).
+ * for the rest of the session (a reload re-enables it). Holding the primary
+ * button (or a finger) and dragging draws a continuous ripple wake along the
+ * path — the same velocity channel as the burst, so it blends in and settles
+ * naturally the instant the press ends.
  */
 const SnowField = ({ color }: { color: string }) => {
   const ref = useRef<InstancedMesh>(null);
@@ -87,6 +90,10 @@ const SnowField = ({ color }: { color: string }) => {
   // click turns the interaction off, a reload brings it back.
   const pointer = useRef({ x: 0, y: 0, active: 0, enabled: true });
   const burst = useRef({ x: 0, y: 0, fire: false });
+  // Drag trail: the pointer position (NDC) while the primary button / a finger
+  // is held down. Separate from `pointer` so the wake keeps tracking even for
+  // touch and after a click has switched the hover-follow off.
+  const drag = useRef({ x: 0, y: 0, active: false, has: false });
 
   useEffect(() => {
     const onMove = (e: PointerEvent) => {
@@ -114,15 +121,47 @@ const SnowField = ({ color }: { color: string }) => {
       burst.current.y = -(e.clientY / window.innerHeight) * 2 + 1;
       burst.current.fire = true;
     };
+    // Press-and-drag → a continuous ripple wake, as if a finger were gliding
+    // through the field. `onDragMove` refreshes the point every move (touch
+    // included) so useFrame can lay the trail down frame-by-frame; releasing
+    // just clears `active` and the displaced hexes settle on their own.
+    const onDragDown = (e: PointerEvent) => {
+      if (e.button !== 0) return; // left mouse / touch / pen-tip only
+      if ((e.target as Element | null)?.closest?.("[data-intro]")) return;
+      const dr = drag.current;
+      dr.x = (e.clientX / window.innerWidth) * 2 - 1;
+      dr.y = -(e.clientY / window.innerHeight) * 2 + 1;
+      dr.has = true;
+      dr.active = true;
+    };
+    const onDragMove = (e: PointerEvent) => {
+      const dr = drag.current;
+      if (!dr.active) return;
+      dr.x = (e.clientX / window.innerWidth) * 2 - 1;
+      dr.y = -(e.clientY / window.innerHeight) * 2 + 1;
+    };
+    const onDragEnd = () => {
+      drag.current.active = false;
+    };
     window.addEventListener("pointermove", onMove, { passive: true });
     window.addEventListener("pointerout", onOut);
     window.addEventListener("blur", onBlur);
     window.addEventListener("click", onClick, true);
+    window.addEventListener("pointerdown", onDragDown, { passive: true });
+    window.addEventListener("pointermove", onDragMove, { passive: true });
+    window.addEventListener("pointerup", onDragEnd, { passive: true });
+    window.addEventListener("pointercancel", onDragEnd, { passive: true });
+    window.addEventListener("blur", onDragEnd);
     return () => {
       window.removeEventListener("pointermove", onMove);
       window.removeEventListener("pointerout", onOut);
       window.removeEventListener("blur", onBlur);
       window.removeEventListener("click", onClick, true);
+      window.removeEventListener("pointerdown", onDragDown);
+      window.removeEventListener("pointermove", onDragMove);
+      window.removeEventListener("pointerup", onDragEnd);
+      window.removeEventListener("pointercancel", onDragEnd);
+      window.removeEventListener("blur", onDragEnd);
     };
   }, []);
 
@@ -162,6 +201,22 @@ const SnowField = ({ color }: { color: string }) => {
       const bDirZ = Math.abs(rayDir.z) > 1e-5 ? rayDir.z : -1e-5;
       bkx = rayDir.x / bDirZ;
       bky = rayDir.y / bDirZ;
+    }
+
+    // Drag wake: a live ray at the held pointer, resolved per hex below so the
+    // trail lines up with the finger at every depth.
+    const dragging = drag.current.active && drag.current.has;
+    let dkx = 0;
+    let dky = 0;
+    if (dragging) {
+      rayDir
+        .set(drag.current.x, drag.current.y, 0.5)
+        .unproject(cam)
+        .sub(cam.position)
+        .normalize();
+      const dDirZ = Math.abs(rayDir.z) > 1e-5 ? rayDir.z : -1e-5;
+      dkx = rayDir.x / dDirZ;
+      dky = rayDir.y / dDirZ;
     }
 
     const damp = Math.exp(-3.2 * d);
@@ -208,6 +263,28 @@ const SnowField = ({ color }: { color: string }) => {
         }
         h.vx += ex * boom;
         h.vy += ey * boom;
+      }
+
+      // Continuous drag wake: while held, nudge nearby hexes radially outward
+      // from the live pointer. Scaling by `d` makes it a smooth per-second push
+      // (a moving trough, not a one-shot pop), and it feeds the same vx/vy the
+      // click burst uses — so hover, burst and drag all settle as one motion.
+      if (dragging) {
+        const gx = cam.position.x + dkx * (h.z - cam.position.z);
+        const gy = cam.position.y + dky * (h.z - cam.position.z);
+        let wx = h.x + h.ox - gx;
+        let wy = h.y + h.oy - gy;
+        const wdist = Math.hypot(wx, wy);
+        const wake = 28 * Math.exp(-(wdist * wdist) / 4) * d;
+        if (wdist > 1e-4) {
+          wx /= wdist;
+          wy /= wdist;
+        } else {
+          wx = Math.cos(h.phase);
+          wy = Math.sin(h.phase);
+        }
+        h.vx += wx * wake;
+        h.vy += wy * wake;
       }
 
       // Burst velocity rides on the same eased offset and bleeds off, so the
