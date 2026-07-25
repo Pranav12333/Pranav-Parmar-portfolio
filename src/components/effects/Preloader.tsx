@@ -3,6 +3,7 @@ import { AnimatePresence, m } from "framer-motion";
 import { profile } from "../../data/profile";
 import { EASE, EASE_INOUT } from "../../lib/motion";
 import { usePrefersReducedMotion } from "../../hooks/useMediaQuery";
+import { playSound } from "../../lib/sound";
 
 // "Where X meets Y" lines cycled on the welcome screen (keep it to 1–2).
 const LINES = [
@@ -46,6 +47,10 @@ const Preloader = () => {
     } catch {
       /* ignore */
     }
+    // Premium startup chord as the doors swing open. Plays only when the
+    // context can be unlocked (i.e. the intro was dismissed by a real
+    // click/keypress); a silent 4s auto-enter respects the autoplay policy.
+    playSound("startup", true);
     setDone(true);
   }, []);
 

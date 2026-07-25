@@ -11,6 +11,7 @@ import Preloader from "./components/effects/Preloader";
 import ScrollProgress from "./components/effects/ScrollProgress";
 import SmoothScroll from "./components/effects/SmoothScroll";
 import Cursor from "./components/effects/Cursor";
+import SoundManager from "./components/effects/SoundManager";
 import SnowBackground from "./components/three/SnowBackground";
 import { useCardSpotlight } from "./hooks/useCardSpotlight";
 
@@ -29,6 +30,7 @@ function App() {
       <SnowBackground />
       <ScrollProgress />
       <Cursor />
+      <SoundManager />
       <Navbar />
       <div className="relative z-10">
         <main id="main-content" tabIndex={-1}>

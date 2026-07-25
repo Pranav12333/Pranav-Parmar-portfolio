@@ -4,6 +4,7 @@ import { AnimatePresence, m } from "framer-motion";
 import { FaGithub, FaLinkedin, FaYoutube, FaEnvelope, FaInstagram, FaStackOverflow } from "react-icons/fa";
 import { FiMail, FiPhone, FiMapPin, FiSend, FiCheckCircle, FiAlertCircle } from "react-icons/fi";
 import { profile } from "../data/profile";
+import { playSound } from "../lib/sound";
 import { SectionHeader } from "./About";
 import Reveal from "./effects/Reveal";
 import Magnetic from "./effects/Magnetic";
@@ -76,6 +77,7 @@ const Contact = () => {
       if (response.ok && String(data.success) === "true") {
         setStatus({ ok: true, msg: "Message sent! I'll get back to you soon." });
         setForm({ name: "", email: "", message: "" });
+        playSound("chime", true); // soft confirmation on a successful send
       } else {
         setStatus({
           ok: false,
