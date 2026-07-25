@@ -1,6 +1,6 @@
 import { FaGraduationCap } from "react-icons/fa";
 import { FiCheckCircle } from "react-icons/fi";
-import profile_img from "../assets/profile.webp";
+import profile_img from "../assets/profile.png";
 import { profile, education, languages } from "../data/profile";
 import Reveal from "./effects/Reveal";
 import TiltCard from "./effects/TiltCard";
