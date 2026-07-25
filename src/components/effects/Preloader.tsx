@@ -11,8 +11,8 @@ const LINES = [
   "Where smart work meets dedication",
 ];
 
-const LINE_SWAP_MS = [2200]; // moment line 2 takes over
-const INTRO_MS = 4000; // auto-enter after the full sequence
+const LINE_SWAP_MS = [1200]; // moment line 2 takes over
+const INTRO_MS = 2000; // auto-enter after the full sequence
 
 /**
  * True for automated, human-less visitors — Lighthouse / PageSpeed, WebPageTest
@@ -37,9 +37,9 @@ function isAutomatedVisitor(): boolean {
 }
 
 const DOOR_EXIT = {
-  duration: 0.95,
+  duration: 0.6,
   ease: EASE_INOUT,
-  delay: 0.15,
+  delay: 0.1,
 };
 
 /**
@@ -120,7 +120,7 @@ const Preloader = () => {
           style={{ perspective: "1400px" }}
           // No-op exit that outlives the doors so the overlay stays mounted
           // for the full swing.
-          exit={{ opacity: 1, transition: { duration: 1.15 } }}
+          exit={{ opacity: 1, transition: { duration: 0.8 } }}
         >
           {/* Left door */}
           <m.div
@@ -166,7 +166,7 @@ const Preloader = () => {
                   strokeLinecap="round"
                   initial={{ pathLength: 0 }}
                   animate={{ pathLength: 1 }}
-                  transition={{ duration: 1, ease: "easeInOut" }}
+                  transition={{ duration: 0.8, ease: "easeInOut" }}
                 />
               </svg>
               <span className="absolute text-2xl font-extrabold brand-text">PP</span>
@@ -175,7 +175,7 @@ const Preloader = () => {
             <m.p
               initial={{ opacity: 0, y: 18 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2, duration: 0.6, ease: EASE }}
+              transition={{ delay: 0.1, duration: 0.45, ease: EASE }}
               className="mt-8 text-xs font-semibold uppercase tracking-[0.35em] text-slate-500 sm:text-sm dark:text-slate-400"
             >
               Welcome to the world of
@@ -187,7 +187,7 @@ const Preloader = () => {
             <m.p
               initial={{ opacity: 0, y: 26, scale: 0.96 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
-              transition={{ delay: 0.5, duration: 0.7, ease: EASE }}
+              transition={{ delay: 0.3, duration: 0.5, ease: EASE }}
               className="mt-3 text-4xl font-extrabold tracking-tight brand-text-animated sm:text-6xl"
             >
               {profile.name}
@@ -197,7 +197,7 @@ const Preloader = () => {
             <m.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ delay: 1.1, duration: 0.5 }}
+              transition={{ delay: 0.6, duration: 0.4 }}
               className="relative mt-5 h-8 sm:h-9"
             >
               <AnimatePresence mode="wait">
@@ -227,7 +227,7 @@ const Preloader = () => {
             <m.p
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ delay: 1.6, duration: 0.6 }}
+              transition={{ delay: 0.9, duration: 0.45 }}
               className="mt-4 text-xs text-slate-400 dark:text-slate-500"
             >
               Click anywhere or press any key to enter
