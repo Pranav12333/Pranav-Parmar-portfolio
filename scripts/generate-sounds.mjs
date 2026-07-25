@@ -253,10 +253,13 @@ console.log(`Generating UI sounds → ${OUT_DIR}`);
   );
 }
 
-// drag — DRAG: a seamless loop of soft low-passed air for the press-and-drag
-// ambient tone. Modulation frequencies complete whole cycles over the loop,
-// and the head is crossfaded with the tail so the seam is inaudible. The
-// engine fades it in/out on grab/release, so the loop stays at constant level.
+// drag — DRAG: a continuous, smooth ambient tone for the press-and-drag glide.
+// A soft low pad (90 Hz + a fifth at 135 Hz) under a veil of low-passed air.
+// Both pad partials complete whole cycles over the loop (108 & 162), and the
+// only movement is a single slow cycle of gentle breathing — NO fast tremolo,
+// so it never pulses ("ghurr-ghurr"). The head is crossfaded with the tail so
+// the seam is inaudible; the engine fades the whole thing in on grab and out
+// on release, so the loop itself stays at constant level.
 {
   const rnd = mulberry32(55);
   const lp1 = lowpass();
@@ -265,9 +268,20 @@ console.log(`Generating UI sounds → ${OUT_DIR}`);
   const FADE = Math.round(0.12 * SR);
   const n = Math.round(LOOP * SR);
   const gen = render(LOOP + FADE / SR, (t) => {
-    // 2.5 Hz and 5/1.2 Hz → exactly 3 and 5 cycles per loop
-    const mod = 1 + 0.16 * Math.sin(TWO_PI * 2.5 * t) + 0.1 * Math.sin(TWO_PI * (5 / LOOP) * t);
-    return lp2(lp1((rnd() - 0.5) * 2, 600), 600) * mod;
+    // one slow cycle across the loop → gentle breathing, never an audible pulse
+    const drift = 1 + 0.05 * Math.sin(TWO_PI * (1 / LOOP) * t);
+    // soft warm pad — a low root (90), its fifth (135) and octave (180). The
+    // octave gives body that still carries on laptop speakers (which roll off
+    // below ~150 Hz), so it reads as a smooth glide rather than a rough sub
+    // rumble. All three are loop-locked (108/162/216 whole cycles per loop), so
+    // value AND slope match at the seam → no click, no pulse.
+    const pad =
+      Math.sin(TWO_PI * 90 * t) * 0.5 +
+      Math.sin(TWO_PI * 135 * t) * 0.3 +
+      Math.sin(TWO_PI * 180 * t) * 0.2;
+    // a veil of low-passed air for texture
+    const air = lp2(lp1((rnd() - 0.5) * 2, 520), 520) * 0.7;
+    return (pad * 0.55 + air) * drift;
   });
   const looped = new Float64Array(n);
   for (let i = 0; i < n; i++) {

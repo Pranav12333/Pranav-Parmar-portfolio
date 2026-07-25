@@ -14,9 +14,14 @@ import Cursor from "./components/effects/Cursor";
 import SoundManager from "./components/effects/SoundManager";
 import SnowBackground from "./components/three/SnowBackground";
 import { useCardSpotlight } from "./hooks/useCardSpotlight";
+import { useDeferredMount } from "./hooks/useDeferredMount";
 
 function App() {
   useCardSpotlight();
+  // Purely-decorative overlays — mount them after load + idle so their Framer
+  // Motion loops stay out of the first-paint / LCP window (they carry no
+  // layout, so a slightly later mount is invisible).
+  const overlaysReady = useDeferredMount();
   return (
     <div className="relative min-h-screen bg-slate-50 text-slate-800 dark:bg-slate-950 dark:text-slate-200">
       <a
@@ -28,8 +33,8 @@ function App() {
       <SmoothScroll />
       <Preloader />
       <SnowBackground />
-      <ScrollProgress />
-      <Cursor />
+      {overlaysReady && <ScrollProgress />}
+      {overlaysReady && <Cursor />}
       <SoundManager />
       <Navbar />
       <div className="relative z-10">

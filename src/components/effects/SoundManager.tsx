@@ -4,6 +4,7 @@ import {
   playSound,
   startDrag,
   stopDrag,
+  updateDrag,
   unlockOnGesture,
 } from "../../lib/sound";
 import SoundToggle from "./SoundToggle";
@@ -24,19 +25,24 @@ const now = () => (typeof performance !== "undefined" ? performance.now() : 0);
  */
 const SoundManager = () => {
   useEffect(() => {
-    // Decode buffers when the browser is idle so audio never competes with
-    // first paint / LCP.
-    const win = window as typeof window & {
-      requestIdleCallback?: (cb: () => void) => number;
-      cancelIdleCallback?: (id: number) => void;
+    // Audio can't play until a user gesture unlocks the AudioContext, so there
+    // is no reason to fetch or decode the ~300 kB of sound buffers before then.
+    // Decode lazily on the first real gesture (the same signal that unlocks the
+    // context) — this keeps every byte and every decodeAudioData call off the
+    // initial load path, so audio never competes with first paint / LCP (and
+    // never loads at all with no interaction, e.g. a Lighthouse audit). The
+    // engine already handles a sound requested before its buffer is ready
+    // (pendingGestureSound), so the very first click is never swallowed.
+    const gestureOpts: AddEventListenerOptions = {
+      once: true,
+      passive: true,
+      capture: true,
     };
-    let idleId = 0;
-    let timerId = 0;
-    if (win.requestIdleCallback) {
-      idleId = win.requestIdleCallback(() => initSound());
-    } else {
-      timerId = window.setTimeout(() => initSound(), 800);
-    }
+    const gestureEvents = ["pointerdown", "keydown", "touchstart"] as const;
+    const initOnGesture = () => initSound();
+    gestureEvents.forEach((e) =>
+      window.addEventListener(e, initOnGesture, gestureOpts)
+    );
 
     const releaseUnlock = unlockOnGesture();
 
@@ -51,6 +57,10 @@ const SoundManager = () => {
     let startX = 0;
     let startY = 0;
     let lastDragEnd = -Infinity;
+    // Pointer-speed tracking, used only to breathe the drag glide (see below).
+    let lastMoveX = 0;
+    let lastMoveY = 0;
+    let lastMoveT = 0;
 
     /* ---- click → pop, project-open bloom, or a confirmation chime ---------- */
     const onClick = (e: MouseEvent) => {
@@ -120,11 +130,26 @@ const SoundManager = () => {
       startY = e.clientY;
     };
     const onPointerMove = (e: PointerEvent) => {
-      if (!held || dragging) return;
-      if (Math.hypot(e.clientX - startX, e.clientY - startY) > 8) {
-        dragging = true;
-        startDrag();
+      if (!held) return;
+      if (!dragging) {
+        if (Math.hypot(e.clientX - startX, e.clientY - startY) > 8) {
+          dragging = true;
+          lastMoveX = e.clientX;
+          lastMoveY = e.clientY;
+          lastMoveT = now();
+          startDrag();
+        }
+        return;
       }
+      // Already gliding: nudge the ONE looping tone's level/pitch from pointer
+      // speed — a smooth ramp inside the engine, never a re-triggered clip.
+      const t = now();
+      const dt = Math.max(1, t - lastMoveT);
+      const dist = Math.hypot(e.clientX - lastMoveX, e.clientY - lastMoveY);
+      lastMoveX = e.clientX;
+      lastMoveY = e.clientY;
+      lastMoveT = t;
+      updateDrag(Math.min(1.5, 0.7 + (dist / dt) * 0.5)); // px/ms → intensity
     };
     const endDrag = () => {
       held = false;
@@ -169,8 +194,9 @@ const SoundManager = () => {
       .forEach((el) => observer.observe(el));
 
     return () => {
-      if (idleId && win.cancelIdleCallback) win.cancelIdleCallback(idleId);
-      if (timerId) window.clearTimeout(timerId);
+      gestureEvents.forEach((e) =>
+        window.removeEventListener(e, initOnGesture, gestureOpts)
+      );
       releaseUnlock();
       window.removeEventListener("click", onClick, true);
       window.removeEventListener("pointerover", onOver);

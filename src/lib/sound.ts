@@ -88,11 +88,22 @@ const lastPlayed = new Map<SoundName, number>(); // performance.now() timestamps
 let duckUntil = 0;
 let duckPriority = -1;
 
+// A gesture-initiated sound whose buffer hadn't finished decoding when it was
+// requested (e.g. the welcome sound the instant the intro is dismissed). It is
+// fired the moment initSound() decodes it, so the welcome never gets swallowed
+// by the buffer-load race.
+let pendingGestureSound: SoundName | null = null;
+let pendingGestureIntensity = 1;
+
 // Sustained drag loop. `dragWanted` guards the async-resume race: if the drag
 // ends before a suspended context finishes resuming, the deferred start bails
-// instead of leaving an orphaned loop ringing forever.
+// instead of leaving an orphaned loop ringing forever. The chain is
+// source → dragLevel → dragEnv → master: `dragEnv` is the fade in/out envelope
+// (0→1), `dragLevel` the mix level that updateDrag() glides with pointer speed,
+// so the two never fight over the same AudioParam.
 let dragSource: AudioBufferSourceNode | null = null;
-let dragGain: GainNode | null = null;
+let dragEnv: GainNode | null = null;
+let dragLevel: GainNode | null = null;
 let dragWanted = false;
 
 let muted = readInitialMuted();
@@ -172,6 +183,12 @@ export function initSound(): void {
       const arr = await res.arrayBuffer();
       const buf = await c.decodeAudioData(arr);
       buffers.set(name, buf);
+      // A gesture asked for this sound before it was ready — play it now.
+      if (pendingGestureSound === name) {
+        const intensity = pendingGestureIntensity;
+        pendingGestureSound = null;
+        if (!muted) c.resume().then(() => fire(name, intensity)).catch(() => {});
+      }
     } catch {
       /* a missing/undecodable sound simply never plays */
     }
@@ -244,7 +261,20 @@ function fire(name: SoundName, intensity = 1): void {
 export function playSound(name: SoundName, gesture = false, intensity = 1): void {
   if (muted) return;
   const c = getCtx();
-  if (!c || !buffers.has(name)) return;
+  if (!c) return;
+
+  // Buffer not decoded yet. For a real gesture (e.g. dismissing the intro
+  // before the welcome clip finished loading), remember it and let initSound()
+  // fire it once its buffer is ready; non-gesture calls simply drop.
+  if (!buffers.has(name)) {
+    if (gesture) {
+      pendingGestureSound = name;
+      pendingGestureIntensity = intensity;
+      c.resume().catch(() => {});
+      initSound(); // ensure decoding is under way
+    }
+    return;
+  }
 
   if (c.state === "running") {
     fire(name, intensity);
@@ -271,18 +301,39 @@ export function startDrag(): void {
     const src = c.createBufferSource();
     src.buffer = buf;
     src.loop = true;
-    const g = c.createGain();
     const at = c.currentTime;
-    g.gain.setValueAtTime(0.0001, at);
-    g.gain.linearRampToValueAtTime(SPECS.drag.gain, at + DRAG_FADE_IN);
-    src.connect(g).connect(bus);
+    // Envelope: fade in from silence (updateDrag never touches this).
+    const env = c.createGain();
+    env.gain.setValueAtTime(0.0001, at);
+    env.gain.linearRampToValueAtTime(1, at + DRAG_FADE_IN);
+    // Level: the mix gain updateDrag() glides with pointer speed.
+    const level = c.createGain();
+    level.gain.setValueAtTime(SPECS.drag.gain, at);
+    src.connect(level).connect(env).connect(bus);
     src.start();
     dragSource = src;
-    dragGain = g;
+    dragEnv = env;
+    dragLevel = level;
   };
 
   if (c.state === "running") start();
   else c.resume().then(start).catch(() => {});
+}
+
+/**
+ * While a drag is in progress, glide the loop's level and pitch toward targets
+ * derived from pointer speed. `setTargetAtTime` is a smooth exponential
+ * approach — no steps, no clicks — so the ONE looping clip simply breathes;
+ * it is never re-triggered. No-ops until the loop is actually running.
+ */
+export function updateDrag(intensity = 1): void {
+  const c = ctx;
+  if (!c || !dragSource || !dragLevel) return;
+  const at = c.currentTime;
+  const level = SPECS.drag.gain * Math.max(0.7, Math.min(1.5, intensity));
+  const rate = Math.max(0.9, Math.min(1.15, 0.92 + intensity * 0.16));
+  dragLevel.gain.setTargetAtTime(level, at, 0.09);
+  dragSource.playbackRate.setTargetAtTime(rate, at, 0.09);
 }
 
 /** Fade the drag glide out and stop it. Safe to call when nothing is playing. */
@@ -290,15 +341,16 @@ export function stopDrag(): void {
   dragWanted = false; // cancel any pending deferred start (see startDrag)
   const c = ctx;
   const src = dragSource;
-  const g = dragGain;
+  const env = dragEnv;
   dragSource = null;
-  dragGain = null;
-  if (!c || !src || !g) return;
+  dragEnv = null;
+  dragLevel = null;
+  if (!c || !src || !env) return;
   const at = c.currentTime;
   try {
-    g.gain.cancelScheduledValues(at);
-    g.gain.setValueAtTime(g.gain.value, at);
-    g.gain.linearRampToValueAtTime(0.0001, at + DRAG_FADE_OUT);
+    env.gain.cancelScheduledValues(at);
+    env.gain.setValueAtTime(env.gain.value, at);
+    env.gain.linearRampToValueAtTime(0.0001, at + DRAG_FADE_OUT);
     src.stop(at + DRAG_FADE_OUT + 0.02);
   } catch {
     /* already stopped */

@@ -91,9 +91,15 @@ const SnowField = ({ color }: { color: string }) => {
   const pointer = useRef({ x: 0, y: 0, active: 0, enabled: true });
   const burst = useRef({ x: 0, y: 0, fire: false });
   // Drag trail: the pointer position (NDC) while the primary button / a finger
-  // is held down. Separate from `pointer` so the wake keeps tracking even for
-  // touch and after a click has switched the hover-follow off.
-  const drag = useRef({ x: 0, y: 0, active: false, has: false });
+  // is held down. `px/py` is the point processed on the previous frame, so the
+  // wake can be carved against the whole swept segment (gap-free on fast
+  // drags). Separate from `pointer` so the wake keeps tracking even for touch
+  // and after a click has switched the hover-follow off.
+  const drag = useRef({ x: 0, y: 0, px: 0, py: 0, active: false, has: false });
+
+  // Eased follow-point (NDC) + eased activity. The local gather glides after
+  // the cursor with a slight lag and fades in/out instead of snapping.
+  const view = useRef({ x: 0, y: 0, act: 0 });
 
   useEffect(() => {
     const onMove = (e: PointerEvent) => {
@@ -131,6 +137,8 @@ const SnowField = ({ color }: { color: string }) => {
       const dr = drag.current;
       dr.x = (e.clientX / window.innerWidth) * 2 - 1;
       dr.y = -(e.clientY / window.innerHeight) * 2 + 1;
+      dr.px = dr.x; // start the swept segment as a point, not a jump from stale
+      dr.py = dr.y;
       dr.has = true;
       dr.active = true;
     };
@@ -174,18 +182,27 @@ const SnowField = ({ color }: { color: string }) => {
     elapsed.current += d;
     const t = elapsed.current;
 
-    // Cursor ray → the cursor's world position at any depth, so the gathering
-    // lines up with the on-screen pointer for near and far hexes alike.
     const cam = state.camera;
-    rayDir
-      .set(pointer.current.x, pointer.current.y, 0.5)
-      .unproject(cam)
-      .sub(cam.position)
-      .normalize();
+    const camX = cam.position.x;
+    const camY = cam.position.y;
+    const camZ = cam.position.z;
+
+    // Ease the follow-point toward the live pointer so the local gather glides
+    // after the cursor with a slight lag rather than snapping — and can never
+    // teleport across the field on a fast flick. `act` eases in/out too, so the
+    // cluster forms and releases smoothly instead of popping in and out.
+    const v = view.current;
+    v.x += (pointer.current.x - v.x) * (1 - Math.exp(-16 * d));
+    v.y += (pointer.current.y - v.y) * (1 - Math.exp(-16 * d));
+    v.act += (pointer.current.active - v.act) * (1 - Math.exp(-8 * d));
+    const active = v.act;
+
+    // Cursor ray → the follow-point's world position at any depth, so the
+    // gathering lines up with the on-screen pointer for near and far hexes.
+    rayDir.set(v.x, v.y, 0.5).unproject(cam).sub(cam.position).normalize();
     const dirZ = Math.abs(rayDir.z) > 1e-5 ? rayDir.z : -1e-5;
     const kx = rayDir.x / dirZ;
     const ky = rayDir.y / dirZ;
-    const active = pointer.current.active;
 
     // One-shot click burst: aim a second ray at the click point.
     const fire = burst.current.fire;
@@ -193,31 +210,51 @@ const SnowField = ({ color }: { color: string }) => {
     let bky = 0;
     if (fire) {
       burst.current.fire = false;
-      rayDir
-        .set(burst.current.x, burst.current.y, 0.5)
-        .unproject(cam)
-        .sub(cam.position)
-        .normalize();
+      rayDir.set(burst.current.x, burst.current.y, 0.5).unproject(cam).sub(cam.position).normalize();
       const bDirZ = Math.abs(rayDir.z) > 1e-5 ? rayDir.z : -1e-5;
       bkx = rayDir.x / bDirZ;
       bky = rayDir.y / bDirZ;
     }
 
-    // Drag wake: a live ray at the held pointer, resolved per hex below so the
-    // trail lines up with the finger at every depth.
+    // Drag wake: build the segment the pointer swept THIS frame — previous
+    // point → current point — as two per-depth ray slopes (`p*` = start,
+    // `d*` = end). Carving the wake against the whole segment below, not just
+    // the latest event, keeps the trail gap-free during fast drags: a faster
+    // pointer sweeps a longer segment and so carves a longer trough, while a
+    // still/slow drag collapses it to a point and carves a small local dimple.
+    // The span is clamped so a pointer warp can't rake the whole screen at once.
     const dragging = drag.current.active && drag.current.has;
+    let pkx = 0;
+    let pky = 0;
     let dkx = 0;
     let dky = 0;
+    let dragSpeed = 0;
     if (dragging) {
-      rayDir
-        .set(drag.current.x, drag.current.y, 0.5)
-        .unproject(cam)
-        .sub(cam.position)
-        .normalize();
-      const dDirZ = Math.abs(rayDir.z) > 1e-5 ? rayDir.z : -1e-5;
-      dkx = rayDir.x / dDirZ;
-      dky = rayDir.y / dDirZ;
+      const dr = drag.current;
+      const sx = dr.x - dr.px;
+      const sy = dr.y - dr.py;
+      const span = Math.hypot(sx, sy);
+      const maxSpan = 0.6; // NDC units
+      if (span > maxSpan) {
+        const k = maxSpan / span;
+        dr.px = dr.x - sx * k;
+        dr.py = dr.y - sy * k;
+      }
+      dragSpeed = span < maxSpan ? span : maxSpan;
+      rayDir.set(dr.px, dr.py, 0.5).unproject(cam).sub(cam.position).normalize();
+      let z = Math.abs(rayDir.z) > 1e-5 ? rayDir.z : -1e-5;
+      pkx = rayDir.x / z;
+      pky = rayDir.y / z;
+      rayDir.set(dr.x, dr.y, 0.5).unproject(cam).sub(cam.position).normalize();
+      z = Math.abs(rayDir.z) > 1e-5 ? rayDir.z : -1e-5;
+      dkx = rayDir.x / z;
+      dky = rayDir.y / z;
+      dr.px = dr.x; // advance the trailing point for next frame
+      dr.py = dr.y;
     }
+    // Wake grows mildly with sweep speed, so a fast drag flings hexes further
+    // (a longer settling trail) than a slow one.
+    const wakeStrength = 26 * (1 + dragSpeed * 2);
 
     const damp = Math.exp(-3.2 * d);
 
@@ -236,8 +273,8 @@ const SnowField = ({ color }: { color: string }) => {
       // (raising local density), distant ones keep snowing undisturbed. The
       // offset is applied on top of the untouched fall simulation and eased
       // per hex, so the cluster forms — and releases — smoothly.
-      const cx = cam.position.x + kx * (h.z - cam.position.z);
-      const cy = cam.position.y + ky * (h.z - cam.position.z);
+      const cx = camX + kx * (h.z - camZ);
+      const cy = camY + ky * (h.z - camZ);
       const dx = cx - h.x;
       const dy = cy - h.y;
       const g = active * h.pull * Math.exp(-(dx * dx + dy * dy) / 9.7);
@@ -247,8 +284,8 @@ const SnowField = ({ color }: { color: string }) => {
 
       // Radial impulse away from the click point, strongest at the center.
       if (fire) {
-        const bx = cam.position.x + bkx * (h.z - cam.position.z);
-        const by = cam.position.y + bky * (h.z - cam.position.z);
+        const bx = camX + bkx * (h.z - camZ);
+        const by = camY + bky * (h.z - camZ);
         let ex = h.x + h.ox - bx;
         let ey = h.y + h.oy - by;
         const dist = Math.hypot(ex, ey);
@@ -265,17 +302,24 @@ const SnowField = ({ color }: { color: string }) => {
         h.vy += ey * boom;
       }
 
-      // Continuous drag wake: while held, nudge nearby hexes radially outward
-      // from the live pointer. Scaling by `d` makes it a smooth per-second push
-      // (a moving trough, not a one-shot pop), and it feeds the same vx/vy the
-      // click burst uses — so hover, burst and drag all settle as one motion.
+      // Continuous drag wake: push each hex away from the CLOSEST point on the
+      // swept segment, so the whole path carves one smooth capsule-shaped
+      // trough with no gaps or jitter between sparse pointer events. Feeds the
+      // same vx/vy channel as hover/burst, so it settles back into snowfall.
       if (dragging) {
-        const gx = cam.position.x + dkx * (h.z - cam.position.z);
-        const gy = cam.position.y + dky * (h.z - cam.position.z);
-        let wx = h.x + h.ox - gx;
-        let wy = h.y + h.oy - gy;
+        const hx = h.x + h.ox;
+        const hy = h.y + h.oy;
+        const ax = camX + pkx * (h.z - camZ);
+        const ay = camY + pky * (h.z - camZ);
+        const abx = camX + dkx * (h.z - camZ) - ax;
+        const aby = camY + dky * (h.z - camZ) - ay;
+        const ab2 = abx * abx + aby * aby;
+        let tt = ab2 > 1e-6 ? ((hx - ax) * abx + (hy - ay) * aby) / ab2 : 0;
+        tt = tt < 0 ? 0 : tt > 1 ? 1 : tt;
+        let wx = hx - (ax + abx * tt);
+        let wy = hy - (ay + aby * tt);
         const wdist = Math.hypot(wx, wy);
-        const wake = 28 * Math.exp(-(wdist * wdist) / 4) * d;
+        const wake = wakeStrength * Math.exp(-(wdist * wdist) / 4) * d;
         if (wdist > 1e-4) {
           wx /= wdist;
           wy /= wdist;
@@ -287,8 +331,8 @@ const SnowField = ({ color }: { color: string }) => {
         h.vy += wy * wake;
       }
 
-      // Burst velocity rides on the same eased offset and bleeds off, so the
-      // pop flies outward and then settles back into plain snowfall.
+      // Burst/drag velocity rides on the same eased offset and bleeds off, so
+      // the motion flies outward and then settles back into plain snowfall.
       h.ox += h.vx * d;
       h.oy += h.vy * d;
       h.vx *= damp;

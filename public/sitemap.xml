@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
     <loc>https://pranav12333.github.io/Pranav-Parmar-portfolio/</loc>
-    <lastmod>2026-07-23</lastmod>
+    <lastmod>2026-07-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://pranav12333.github.io/Pranav-Parmar-portfolio/og-image.png</image:loc>
+      <image:title>Pranav Parmar — Full Stack Developer &amp; Angular Developer</image:title>
+    </image:image>
   </url>
 </urlset>
