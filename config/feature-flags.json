@@ -1,0 +1,42 @@
+{
+  "$schema": "./schema/feature-flags.schema.json",
+  "version": 3,
+  "defaults": {
+    "rolloutStage": "off",
+    "requiresConsent": false
+  },
+  "flags": {
+    "webgpuParticulate": {
+      "rolloutStage": "off",
+      "owner": "rendering",
+      "dependsOn": ["capability:webgpu"],
+      "note": "Alternative particulate backend. Gate lives in src/config/experimental/gates.ts."
+    },
+    "sectionViewTransitions": {
+      "rolloutStage": "off",
+      "owner": "navigation",
+      "dependsOn": ["capability:viewTransitions"],
+      "note": "Conflicts with the Lenis scroll driver; needs the driver to yield first."
+    },
+    "remoteContent": {
+      "rolloutStage": "off",
+      "owner": "content",
+      "dependsOn": ["adapter:cms"],
+      "requiresConsent": false,
+      "note": "Resolve collections through src/adapters/cms instead of the bundled ones."
+    },
+    "productAnalytics": {
+      "rolloutStage": "off",
+      "owner": "growth",
+      "dependsOn": ["adapter:analytics", "consent:granted"],
+      "requiresConsent": true,
+      "note": "No sink is attached. src/adapters/analytics only buffers in memory."
+    },
+    "themeDocuments": {
+      "rolloutStage": "off",
+      "owner": "design",
+      "dependsOn": ["legacy:themeEngine"],
+      "note": "Colour resolution currently goes through Tailwind tokens, not documents."
+    }
+  }
+}

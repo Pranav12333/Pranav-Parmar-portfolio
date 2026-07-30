@@ -1,0 +1,24 @@
+{
+  "$schema": "./schema/analytics.schema.json",
+  "enabled": false,
+  "consent": {
+    "required": true,
+    "defaultState": "unknown",
+    "storageKey": null
+  },
+  "sampling": {
+    "sessionRate": 0,
+    "eventRate": 0
+  },
+  "redaction": {
+    "strategy": "denylist",
+    "deniedKeys": ["email", "phone", "name", "message"]
+  },
+  "events": [
+    { "name": "section.enter", "enabled": false },
+    { "name": "channel.open", "enabled": false },
+    { "name": "outreach.submit", "enabled": false },
+    { "name": "theme.toggle", "enabled": false },
+    { "name": "audio.toggle", "enabled": false }
+  ]
+}

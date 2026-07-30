@@ -1,0 +1,29 @@
+{
+  "$schema": "./schema/adapters.schema.json",
+  "content": {
+    "active": "static-bundled",
+    "providers": [
+      {
+        "id": "static-bundled",
+        "priority": 9007199254740991,
+        "module": "adapters/cms/static-provider",
+        "options": {}
+      }
+    ]
+  },
+  "analytics": {
+    "active": null,
+    "sinks": [
+      {
+        "id": "buffered",
+        "module": "adapters/analytics/buffered-sink",
+        "consent": "unknown",
+        "options": { "capacity": 64 }
+      }
+    ]
+  },
+  "notes": [
+    "The static provider is always registered last so a read can never fail.",
+    "analytics.active is null: no sink is attached, nothing leaves the page."
+  ]
+}

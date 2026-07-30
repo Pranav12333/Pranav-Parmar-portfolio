@@ -1,7 +1,22 @@
 // tailwind.config.js
 module.exports = {
   darkMode: "class",
-  content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
+  // Only the live module graph is scanned. The inert trees under
+  // src/{legacy,experimental,internal,migration,adapters,compatibility,archive}
+  // are excluded on purpose: they are on no render path, so letting them
+  // contribute utilities would inflate the stylesheet with rules nothing uses.
+  // Keep this list in step with docs/architecture/layering.md.
+  content: [
+    "./index.html",
+    "./src/**/*.{js,ts,jsx,tsx}",
+    "!./src/legacy/**",
+    "!./src/experimental/**",
+    "!./src/internal/**",
+    "!./src/migration/**",
+    "!./src/adapters/**",
+    "!./src/compatibility/**",
+    "!./src/archive/**",
+  ],
   theme: {
     extend: {
       fontFamily: {

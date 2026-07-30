@@ -1,7 +1,7 @@
 // scripts/generate-sounds.mjs
 //
 // Procedurally synthesizes the portfolio's UI sound set as small mono
-// 16-bit WAV files in src/assets/sounds/. Deterministic (seeded noise),
+// 16-bit WAV files in src/assets/audio/cues/. Deterministic (seeded noise),
 // so re-running always produces identical bytes.
 //
 //   node scripts/generate-sounds.mjs   (or: npm run sounds)
@@ -17,7 +17,7 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const SR = 22050; // Nyquist 11 kHz — plenty for soft UI sounds, half the bytes
-const OUT_DIR = join(dirname(fileURLToPath(import.meta.url)), "..", "src", "assets", "sounds");
+const OUT_DIR = join(dirname(fileURLToPath(import.meta.url)), "..", "src", "assets", "audio", "cues");
 const TWO_PI = Math.PI * 2;
 
 /* ---------------------------------- utils --------------------------------- */

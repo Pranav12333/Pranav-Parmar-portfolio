@@ -15,6 +15,25 @@
     "noEmit": true,
     "jsx": "react-jsx",
 
+    /* Module graph vocabulary — MUST mirror build/aliases.ts, which is what
+       Vite resolves with. Editors and tsc read this copy; the bundler reads
+       that one. Changing one without the other breaks exactly half the tools. */
+    "baseUrl": ".",
+    "paths": {
+      "@app/*": ["src/*"],
+      "@runtime/*": ["src/runtime/*"],
+      "@presentation/*": ["src/presentation/*"],
+      "@surfaces/*": ["src/presentation/surfaces/*"],
+      "@platform/*": ["src/platform/*"],
+      "@kernel": ["src/platform/kernel"],
+      "@kernel/*": ["src/platform/kernel/*"],
+      "@domain/*": ["src/domain/*"],
+      "@identity": ["src/domain/identity"],
+      "@identity/*": ["src/domain/identity/*"],
+      "@config/*": ["src/config/*"],
+      "@assets/*": ["src/assets/*"]
+    },
+
     /* Linting */
     "strict": true,
     "noUnusedLocals": true,

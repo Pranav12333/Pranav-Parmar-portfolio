@@ -1,0 +1,64 @@
+NOTICE
+======
+
+Pranav Parmar — Portfolio
+Copyright (c) 2026 Pranav H. Parmar. All rights reserved.
+
+This product includes original work by Pranav H. Parmar, licensed under the
+PROPRIETARY SOFTWARE LICENSE in the accompanying LICENSE file. That license is
+NOT an open-source license and does NOT permit copying, re-branding or
+redistribution.
+
+
+Scope of the proprietary license
+--------------------------------
+Everything authored in this repository, including:
+
+  src/**                 application source
+  build/**               build pipeline
+  config/**              configuration documents
+  docs/**                documentation
+  scripts/**             tooling
+  public/**              static assets (favicon, social card, manifest)
+  index.html             document shell, metadata and structured data
+  src/assets/**          photographs and generated audio cues
+
+
+Third-party dependencies
+------------------------
+The following are NOT covered by the LICENSE file. Each is redistributed under
+its own terms by its own authors, and each retains its own copyright:
+
+  react, react-dom          MIT      — Meta Platforms, Inc. and affiliates
+  framer-motion             MIT      — Framer B.V.
+  three                     MIT      — three.js authors
+  @react-three/fiber        MIT      — Poimandres
+  lenis                     MIT      — darkroom.engineering
+  react-icons               MIT      — react-icons authors
+                                       (bundled icon sets carry their own
+                                        licenses — see react-icons/LICENSE)
+  vite                      MIT      — VoidZero Inc. and Vite contributors
+  @vitejs/plugin-react-swc  MIT      — Vite contributors
+  tailwindcss               MIT      — Tailwind Labs, Inc.
+  postcss, autoprefixer     MIT      — respective authors
+  typescript                Apache-2.0 — Microsoft Corporation
+  eslint + plugins          MIT      — respective authors
+  javascript-obfuscator     BSD-2-Clause — Timofey Kachalov
+
+Authoritative license text for each package is in its own directory under
+node_modules/. This list is informational; where it disagrees with a package's
+own declaration, the package's declaration governs.
+
+
+Fonts
+-----
+The "Inter" typeface is loaded at runtime from Google Fonts and is licensed
+under the SIL Open Font License 1.1. It is not redistributed in this
+repository.
+
+
+Attribution requirement
+-----------------------
+Any use permitted in writing by the Author must retain this NOTICE file, the
+LICENSE file, and the copyright banner emitted into the build output by
+build/legal.ts.

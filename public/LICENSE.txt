@@ -1,0 +1,70 @@
+PROPRIETARY SOFTWARE LICENSE
+All Rights Reserved
+
+Copyright (c) 2026 Pranav H. Parmar. All rights reserved.
+
+This repository and everything in it (the "Work") — including but not limited to
+the source code, build configuration, layout, component structure, styling,
+animation and motion design, generated audio assets, images, photographs,
+written copy, biography, project descriptions, structured data and metadata — is
+the exclusive property of Pranav H. Parmar (the "Author").
+
+The Work is NOT open source. No license, express or implied, is granted by the
+mere fact that this repository is publicly readable. Public visibility is for
+portfolio and review purposes only.
+
+1. PERMITTED
+   a. Viewing the published website at its canonical address.
+   b. Reading this source code for the sole purpose of personal, non-commercial
+      study and evaluation of the Author's work.
+
+2. PROHIBITED without the Author's prior written permission
+   a. Copying, cloning, forking, downloading or reproducing the Work or any
+      substantial part of it, in whole or in part, in any medium.
+   b. Modifying, adapting, translating or creating derivative works.
+   c. Re-branding, white-labelling, or substituting the Author's name, likeness,
+      photographs, biography, contact details, social links, project write-ups or
+      any other identifying content with those of another person or entity, and
+      publishing or distributing the result.
+   d. Redistributing, sublicensing, selling, renting, leasing or offering the
+      Work — or any derivative of it — as a template, theme, starter, boilerplate,
+      course asset, or paid or free download.
+   e. Deploying or hosting the Work, or a derivative of it, at any address other
+      than the Author's own.
+   f. Using the Work, or any part of it, to train, fine-tune or evaluate machine
+      learning models, or including it in any dataset for such purposes.
+   g. Removing, obscuring, altering or circumventing any copyright notice,
+      authorship attribution, license header or build-time banner contained in
+      the Work or in its build output.
+
+3. PERSONAL DATA
+   The Work contains the Author's personal information — full name, photograph,
+   email address, telephone number, physical location, employment history,
+   education history and social profiles. This information is published for the
+   sole purpose of the Author's own professional representation. Reproducing,
+   republishing, scraping or otherwise processing it for any other purpose is
+   prohibited and may additionally infringe rights beyond copyright, including
+   rights of personality, publicity and data protection.
+
+4. THIRD-PARTY COMPONENTS
+   The Work depends on third-party open-source packages that are NOT covered by
+   this license. Each remains governed by its own license, as declared in its own
+   distribution (see package.json and node_modules). This license applies only to
+   the Author's own contributions in this repository. See NOTICE for details.
+
+5. TERMINATION
+   Any use outside Section 1 terminates the permissions in Section 1
+   automatically and immediately, without notice.
+
+6. NO WARRANTY
+   THE WORK IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+   IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+   FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+   AUTHOR BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
+   ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+   WITH THE WORK OR THE USE OR OTHER DEALINGS IN THE WORK.
+
+7. RESERVATION OF RIGHTS
+   All rights not expressly granted in Section 1 are reserved by the Author.
+
+Permission requests: parmarhn50@gmail.com
