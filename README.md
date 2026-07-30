@@ -13,7 +13,7 @@ Personal portfolio of **Pranav Parmar**, a Full Stack Developer & Angular Specia
 - 👥 Mentors developers through structured Git/GitHub workflows
 
 ## Connect
-
+ 
 - 💼 [LinkedIn — Pranav Parmar](https://www.linkedin.com/in/pranav-parmar-webdeveloper/)
 - 🐙 [GitHub — @Pranav12333](https://github.com/Pranav12333)
 - ▶️ [YouTube](https://www.youtube.com/@pranav_parmar_123)
