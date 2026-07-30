@@ -23,7 +23,7 @@ export default defineConfig(({ command }) => {
 
   return {
     plugins: [react(), manglePlugin(), legalPlugin()],
-    base: process.env.BASE_PATH || '/',
+    base: '/Pranav-Parmar-portfolio/',
     resolve: {
       // Mirrored in tsconfig.app.json `paths` — see build/aliases.ts.
       alias: moduleAliases,
