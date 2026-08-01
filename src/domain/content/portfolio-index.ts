@@ -18,23 +18,23 @@ export const projects: readonly Project[] = [
       "An Angular + TypeScript e-commerce storefront built as a config-driven, white-label platform — brand, logo, theme, and colors are all editable from a single source of truth, with role-based Admin and Customer panels. Optimized for large product catalogs as a lightweight SPA using lazy loading and OnPush change detection for fast, responsive browsing.",
   },
   {
-    title: "Speco VMS Portal",
+    title: "Security Monitoring System",
     tech: ["Angular", "Node.js", "Networking"],
     highlight: `${MEASUREMENTS.vmsTeamSize}+ dev team`,
     description: `A large-scale video management system (VMS) built with Angular and Node.js and delivered with a ${MEASUREMENTS.vmsTeamSize}+ developer team. Developed camera & NVR configuration modules with end-to-end hardware integration (cameras, NVRs, bridges, switches) plus network-level setup — local/public IP configuration and port forwarding — wired to backend REST APIs.`,
   },
   {
-    title: "CellGate Access Control System",
+    title: "Enterprise Access Control System",
     tech: ["Node.js", "WebSocket", "MQTT"],
     highlight: "Real-time IoT",
     description: `A real-time IoT access-control platform where highly responsive Node.js APIs bridge firmware, Android, and web clients. Built the real-time communication layer and IoT device integration using WebSocket, MQTT, and socket messaging, delivered within a ${MEASUREMENTS.accessControlTeamSize}+ member team.`,
   },
   {
-    title: "Ammann Construction Dashboard",
+    title: "Construction Management Platform",
     tech: ["Angular", "TypeScript", "ng-apexcharts"],
     highlight: "Role-based analytics",
     description:
-      "An analytics platform with role-based dynamic panels tailored to Admin, Dealer, Site Manager, and Partner personas. Built with Angular, TypeScript, and ng-apexcharts to deliver fully interactive data-visualization and reporting dashboards for construction-equipment operations.",
+      "An analytics platform with role-based dynamic panels tailored to Admin, Dealer, Site Manager, and Partner personas. Built with Angular, TypeScript, and ng-apexcharts to deliver fully interactive data-visualization and reporting dashboards for enterprise field operations.",
   },
   {
     title: "Internal Task Management System",

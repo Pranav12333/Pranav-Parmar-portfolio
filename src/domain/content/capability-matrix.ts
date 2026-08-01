@@ -9,12 +9,12 @@ import type { CoreSkill, SkillGroup } from "@domain/contracts/content";
 
 /** Drives the animated proficiency bars. */
 export const coreSkills: readonly CoreSkill[] = [
-  { name: "Angular (14/16)", level: 92 },
-  { name: "TypeScript", level: 88 },
-  { name: "JavaScript (ES6+)", level: 88 },
-  { name: "RxJS", level: 82 },
-  { name: "Node.js / Express", level: 80 },
-  { name: "MongoDB", level: 74 },
+  { name: "Angular (14/16)", level: 85 },
+  { name: "TypeScript", level: 81 },
+  { name: "JavaScript (ES6+)", level: 81 },
+  { name: "RxJS", level: 76 },
+  { name: "Node.js / Express", level: 74 },
+  { name: "MongoDB", level: 68 },
 ];
 
 export const skills: readonly SkillGroup[] = [
@@ -43,7 +43,13 @@ export const skills: readonly SkillGroup[] = [
   },
   {
     category: "Backend",
-    items: ["Node.js", "Express.js", "REST APIs", "MongoDB", "JWT / Auth"],
+    items: [
+      "Node.js",
+      "Express.js",
+      "REST APIs",
+      "MongoDB",
+      "JWT / Auth",
+    ],
   },
   {
     category: "Real-Time & IoT",
